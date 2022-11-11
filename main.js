@@ -2,13 +2,28 @@ let counter = 0;
 let screenW = screen.width;
 let screenH = screen.height;
 
+var cx = screen.width * 0.5;
+var cy = screen.height * 0.5;
+
 
 let arrayWidth=5;
 let arrayHeight=2;
 let stackHeight=30;
-let shrink=60;
+let shrink=90;
 let sensitivity = 30;
 
+let globalStlye = document.getElementById("container");
+globalStlye.style.outlineWidth = "10px";
+
+function isTouchDevice() {
+  try {
+    //We try to create TouchEvent. It would fail for desktops and throw error
+    document.createEvent("TouchEvent");
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
 let window2 = "";
 let output = "";
@@ -37,8 +52,8 @@ const move = (e) => {
     //Try, catch to avoid any errors for touch screens (Error thrown when user doesn't move his finger)
     try {
       //PageX and PageY return the position of client's cursor from top left of screen
-      var x = e.pageX*2;
-      var y = e.pageY*2;
+        var x = !isTouchDevice() ? e.pageX-cx : e.touches[0].pageX-cx;
+        var y = !isTouchDevice() ? e.pageY-cy : e.touches[0].pageY-cy;
     } catch (e) {}
     //set left and top of div based on mouse position
     for (let row = 1; row < arrayHeight; row++) {       
@@ -48,12 +63,17 @@ const move = (e) => {
         for (let card = 2; card < stackHeight; card++) {
           console.log(`${row}-${col}-${card}`);
           let currentCard = document.getElementById(`${row}-${col}-${card}`);
+          let currentX = currentCard.style.top;
+          let cardOffsetX = (cx-e.pageX)*-1
+          let cardOffsetY = (cy-e.pageY)*-1
+
+
           console.log(currentCard);
           currentCard.style.zIndex= card;
           currentCard.style.transform = `scale(${1-(card/shrink)}, ${1-(card/shrink)}`;
           currentCard.style.position = "relative";
-          currentCard.style.left =x/120-(card*1.5) +"px";
-          currentCard.style.top =y/90-(card*1.5) +"px";
+          currentCard.style.left =cardOffsetX*(card*card*0.001) +"px";
+          currentCard.style.top =cardOffsetY*(card*card*0.001) +"px";
           currentCard.style.zIndex= `${card}`;
         }
       }
