@@ -1,0 +1,47 @@
+*{
+  margin: 0;
+  padding: 0;
+  cursor: none;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #8fc7f1, #7173f5);
+  }
+
+  div > div{
+    margin: 0;
+    padding:0;
+
+
+
+  }
+
+  .base{
+    height: 100vh;
+    width: calc((100vw/4));
+  }
+
+
+  #container{
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    border: 2px solid red;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+
+  .square{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    outline: 4px solid black;
+    background-color: white;
+  }
+
+  
