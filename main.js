@@ -12,7 +12,7 @@ let stackHeight=30;
 let shrink=90;
 let sensitivity = 30;
 
-let isDark = true;
+let isDark = false;
 
 let globalStlye = document.getElementById("container");
 globalStlye.style.outlineWidth = "10px";
@@ -54,8 +54,8 @@ const move = (e) => {
     //Try, catch to avoid any errors for touch screens (Error thrown when user doesn't move his finger)
     try {
       //PageX and PageY return the position of client's cursor from top left of screen
-        var x = !isTouchDevice() ? e.pageX-cx : e.touches[0].pageX-cx;
-        var y = !isTouchDevice() ? e.pageY-cy : e.touches[0].pageY-cy;
+        var x = !isTouchDevice() ? ((cx-e.pageX)*-1): ((cx-e.touches[0].pageX)*-1);
+        var y = !isTouchDevice() ? ((cy-e.pageY)*-1): ((cy-e.touches[0].pageY)*-1);
     } catch (e) {}
     //set left and top of div based on mouse position
     for (let row = 1; row < arrayHeight; row++) {       
@@ -66,13 +66,19 @@ const move = (e) => {
           console.log(`${row}-${col}-${card}`);
           let currentCard = document.getElementById(`${row}-${col}-${card}`);
           let currentX = currentCard.style.top;
-          let cardOffsetX = (cx-e.pageX)*-1
-          let cardOffsetY = (cy-e.pageY)*-1
+          let cardOffsetX = x
+          let cardOffsetY = y
           let stepDiff= 255/stackHeight;
 
           console.log(currentCard);
-          currentCard.style.zIndex= card;
-          currentCard.style.backgroundColor=`rgb(${50+(card*(stepDiff))}, ${50+(card*(stepDiff))},${50+(card*(stepDiff))})`;
+          
+          isDark? 
+            currentCard.style.backgroundColor=`rgb(${0+(card*(stepDiff))}, ${0+(card*(stepDiff))},${0+(card*(stepDiff))});`:
+            currentCard.style.backgroundColor=`rgb(${255-(card*(stepDiff))}, ${255-(card*(stepDiff))},${255-(card*(stepDiff))})`;
+          isDark? 
+            currentCard.style.outline="10px outset white":
+            currentCard.style.outline="10px outset black";
+
           currentCard.style.transform = `scale(${1-(card/shrink)}, ${1-(card/shrink)}`;
           currentCard.style.position = "relative";
           currentCard.style.left =cardOffsetX*(card*card*0.001) +"px";
@@ -84,31 +90,7 @@ const move = (e) => {
   }
 
 function buzz(e) {
-            let dark = `outline:;background-color: "white""`;
-            let bright = `outline:"10px outset white";background-color: "black""`;
-            
-
-
-            if (isDark){
-              var elements = document.getElementsByClassName('square');
-              console.log(elements.length);
-              for (var i = 0; i < elements.length; i++) {
-                  elements[i].style.outline="10px outset white";
-                  elements[i].style.backgroundColor="black";
-              }
-              isDark=false;
-            } else {
-              var elements = document.getElementsByClassName('square');
-              for (var i = 0; i < elements.length; i++) {
-                elements[i].style.outline="10px outset black";
-                elements[i].style.backgroundColor="white";
-              }
-              isDark=true;
-
-            }
-
-    
-            console.log("BANG");
+    isDark=!isDark;
     };
 
 document.addEventListener("mousedown", (e) => {
