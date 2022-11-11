@@ -1,4 +1,7 @@
 let counter = 0;
+let screenW = screen.width;
+let screenH = screen.height;
+
 
 let arrayWidth=5;
 let arrayHeight=2;
