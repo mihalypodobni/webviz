@@ -14,12 +14,16 @@ body {
   div > div{
     margin: 0;
     padding:0;
+    position: relative;
+
   }
 
   .base{
     height: 100vh;
     width: calc((100vw/4));
-    position:static;
+    position: relative;
+    overflow: visible;
+    z-index: 0;
   }
 
 
@@ -31,6 +35,9 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    overflow: visible;
+    position: relative;
+
   }
 
 
@@ -41,7 +48,9 @@ body {
     outline:inherit;
     outline-style: auto;
     outline: 10px outset black;
-    background-color: white;
+    background-color: rgb(255, 255,255);
+    overflow: visible;
+
 
 /*     animation-name: example;
     animation-duration: 25s;

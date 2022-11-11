@@ -12,6 +12,8 @@ let stackHeight=30;
 let shrink=90;
 let sensitivity = 30;
 
+let isDark = true;
+
 let globalStlye = document.getElementById("container");
 globalStlye.style.outlineWidth = "10px";
 
@@ -60,25 +62,58 @@ const move = (e) => {
       for (let col = 1; col < arrayWidth; col++) {
         let currentDiv = document.getElementById(`div-${row}-${col}`);
         currentDiv.style.transform = `translateY(${col*20})`;
-        for (let card = 2; card < stackHeight; card++) {
+        for (let card = 1; card < stackHeight; card++) {
           console.log(`${row}-${col}-${card}`);
           let currentCard = document.getElementById(`${row}-${col}-${card}`);
           let currentX = currentCard.style.top;
           let cardOffsetX = (cx-e.pageX)*-1
           let cardOffsetY = (cy-e.pageY)*-1
-
+          let stepDiff= 255/stackHeight;
 
           console.log(currentCard);
           currentCard.style.zIndex= card;
+          currentCard.style.backgroundColor=`rgb(${50+(card*(stepDiff))}, ${50+(card*(stepDiff))},${50+(card*(stepDiff))})`;
           currentCard.style.transform = `scale(${1-(card/shrink)}, ${1-(card/shrink)}`;
           currentCard.style.position = "relative";
           currentCard.style.left =cardOffsetX*(card*card*0.001) +"px";
           currentCard.style.top =cardOffsetY*(card*card*0.001) +"px";
-          currentCard.style.zIndex= `${card}`;
+          currentCard.style.zIndex= card;
         }
       }
     }
   }
+
+function buzz(e) {
+            let dark = `outline:;background-color: "white""`;
+            let bright = `outline:"10px outset white";background-color: "black""`;
+            
+
+
+            if (isDark){
+              var elements = document.getElementsByClassName('square');
+              console.log(elements.length);
+              for (var i = 0; i < elements.length; i++) {
+                  elements[i].style.outline="10px outset white";
+                  elements[i].style.backgroundColor="black";
+              }
+              isDark=false;
+            } else {
+              var elements = document.getElementsByClassName('square');
+              for (var i = 0; i < elements.length; i++) {
+                elements[i].style.outline="10px outset black";
+                elements[i].style.backgroundColor="white";
+              }
+              isDark=true;
+
+            }
+
+    
+            console.log("BANG");
+    };
+
+document.addEventListener("mousedown", (e) => {
+  buzz(e);
+});
 
 //For mouse
 document.addEventListener("mousemove", (e) => {
